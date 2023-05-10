@@ -1,50 +1,49 @@
-# Jetpack Compose
-## Intro
-Jetpack Compose is a suite of libraries within the AndroidX ecosystem. For more information, see our [project page](https://developer.android.com/jetpackcompose)
+# Compose Multiplatform Development
 
-## Syntax
-Jetpack Compose uses composable functions instead of XML layouts to define UI components. You can
-see this in action in the demos, like `androidx.compose.material.demos.ButtonDemo.kt`. More
-information can be found in the [compiler README](https://android.googlesource.com/platform/frameworks/support/+/androidx-main/compose/compiler/README.md).
+## Core
 
-## Compiler
-Composable functions are built using a custom Kotlin compiler plugin. More information about the
-compiler plugin is available in [this README](https://android.googlesource.com/platform/frameworks/support/+/androidx-main/compose/compiler/README.md).
+Compose Multiplatform development is going
+in [compose-multiplatform-core](https://github.com/JetBrains/compose-multiplatform-core) repository.
+There Compose Multiplatform team and contributors adopt Jetpack Compose for iOS, Desktop and Web targets.
 
-## Getting started
-To try out Jetpack Compose you need to set up the toolchain for AndroidX development. Follow the process [here](https://android.googlesource.com/platform/frameworks/support/+/androidx-main/README.md) to check out the code.
+### [Get started](https://github.com/JetBrains/compose-multiplatform-core/blob/jb-main/MULTIPLATFORM.md)
 
-To start the required version of Android Studio, you need to run the `ANDROIDX_PROJECTS=COMPOSE ./gradlew studio`
+## Skiko
 
-    cd path/to/checkout/frameworks/support/
-    ANDROIDX_PROJECTS=COMPOSE ./gradlew studio
+Compose Multiplatform uses [Skiko](https://github.com/JetBrains/skiko). A low-level library that hides platform
+complexity and provides a simple interface for rendering, event handling, window management, and other features. Skiko
+uses Skia as graphical API.
 
-Also if you would like to build from the command line, all gradle commands need to be run from the
-`frameworks/support` folder.  E.g. to build the demo app, run:
+## Other parts
 
-    cd path/to/checkout/frameworks/support/
-    ./gradlew :compose:integration-tests:demos:installDebug
+- [Gradle Plugin](https://github.com/JetBrains/compose-multiplatform/tree/master/gradle-plugins)
+- [IDEA Plugin](https://github.com/JetBrains/compose-multiplatform/tree/master/idea-plugin)
+- [Examples](https://github.com/JetBrains/compose-multiplatform/tree/master/examples)
 
-## Structure
-Library code for Jetpack Compose lives under the `frameworks/support/compose` directory. Additionally, sample code can be found within each module in the `integration-tests` subdirectories. Run the `demos` app to see examples of components and behavior.
+## Publishing
 
-## Guidance and documentation
+Compose Multiplatform libraries can be published to local Maven with the following steps:
 
-[Get started with Jetpack Compose](https://goo.gle/compose-docs)
+1. Set `COMPOSE_CUSTOM_VERSION` environment variable
 
-[Samples](https://goo.gle/compose-samples)
+```bash
+export COMPOSE_CUSTOM_VERSION=0.0.0-custom-version
+```
 
-[Pathway course](https://goo.gle/compose-pathway)
+2. Publish core libraries
+   using [instructions](https://github.com/JetBrains/compose-multiplatform-core/blob/jb-main/MULTIPLATFORM.md#publishing)
+3. Publish Gradle plugin
 
-## Feedback
-To provide feedback or report bugs, please refer to the main [AndroidX contribution guide](https://android.googlesource.com/platform/frameworks/support/+/androidx-main/README.md) and report your bugs [here](https://issuetracker.google.com/issues/new?component=612128)
+```bash
+./scripts/publishGradlePluginToMavenLocal
+```
 
-[Release notes](https://developer.android.com/jetpack/androidx/releases/compose)
+4. Publish additional components
+```bash
+./scripts/publishComponentsToMavenLocal
+```
 
-[Browse source](https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:compose/)
-
-[Existing open bugs](https://issuetracker.google.com/issues?q=componentid:612128%20status:open)
-
-[File a new bug](https://issuetracker.google.com/issues/new?component=612128)
-
-[Slack](https://goo.gle/compose-slack)
+5. Publish Compose HTML library
+```bash
+./scripts/publishHtmlLibraryToMavenLocal
+```
